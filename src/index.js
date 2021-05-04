@@ -27,7 +27,7 @@
     mapData.objects.cb_2015_california_county_20m
   )
 
-  const combined = combinedData(data, mapFeatures)
+  const combined = combineData(data, mapFeatures)
 
   const svg = d3.select("#bubblemap").attr("width", 500).attr("height", 500)
 

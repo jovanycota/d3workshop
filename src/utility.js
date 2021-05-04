@@ -1,7 +1,7 @@
 const getData = async (url) => {
-  const {
-    result: { records },
-  } = await d3.json(url)
+  const { result: { records } } = await d3.json(url)
+
+  // console.log(records) // See the data we get from the api
 
   const output = {}
 
@@ -17,6 +17,7 @@ const getData = async (url) => {
         cases: +county.cases,
         date: new Date(`${county.date} PST`),
       }
+
       if (Object.keys(output).includes(county.area)) {
         output[county.area].push(d)
         output[county.area].sort(
@@ -28,10 +29,13 @@ const getData = async (url) => {
         output[county.area] = [d]
       }
     })
+
+  // console.log(output) // See the output
+
   return output
 }
 
-const combinedData = (data, map) =>
+const combineData = (data, map) =>
   Object.keys(map.features).map((key) => {
     const county = map.features[key]
     return {
@@ -43,12 +47,12 @@ const combinedData = (data, map) =>
 const makeLegend = (svg, colorScale, radiusScale) => {
   svg
     .append("g")
+    .attr("transform", "translate(430, 50)")
     .selectAll(".bars")
     .data(d3.range(1000, -1, -1))
     .enter()
     .append("rect")
     .attr("class", "bars")
-    .attr("transform", "translate(430, 50)")
     .attr("width", 10)
     .attr("height", 1)
     .attr("x", 0)
